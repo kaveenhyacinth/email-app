@@ -1,12 +1,19 @@
 <script>
-export default {}
+import { mapStores } from 'pinia'
+import { useEmailStore } from './stores/emailStore'
+
+export default {
+  computed: {
+    ...mapStores(useEmailStore)
+  }
+}
 </script>
 
 <template>
   <aside class="sidebar">
     <div class="sidebar__menu">
-      <button class="sidebar__menu-button">Inbox (3)</button>
-      <button class="sidebar__menu-button">Archive (0)</button>
+      <button class="sidebar__menu-button">Inbox ({{ emailStore.getInboxCount }})</button>
+      <button class="sidebar__menu-button">Archive ({{ emailStore.getArchiveCount }})</button>
     </div>
     <button class="sidebar__menu-button">Logout</button>
   </aside>

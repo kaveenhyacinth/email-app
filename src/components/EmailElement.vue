@@ -1,12 +1,17 @@
 <script>
 export default {
-  props: ['email']
+  props: ['email', 'isSelected'],
+  methods: {
+    onSelect() {
+      this.$emit('selectEmail', this.email.id)
+    }
+  }
 }
 </script>
 
 <template>
   <div class="email" :class="{ 'email--inactive': email.isRead }">
-    <input type="checkbox" class="email__select" />
+    <input type="checkbox" class="email__select" :checked="isSelected" @change="onSelect" />
     <p class="email__content">{{ email.subject }}</p>
   </div>
 </template>

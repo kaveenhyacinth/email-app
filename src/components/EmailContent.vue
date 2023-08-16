@@ -1,6 +1,25 @@
 <script>
 export default {
-  props: ['email']
+  props: ['email'],
+  methods: {
+    handleKayDown(evt) {
+      if (evt.key === 'Escape') {
+        this.$emit('close')
+      }
+      if (evt.key === 'r') {
+        this.$emit('markRead')
+      }
+      if (evt.key === 'a') {
+        this.$emit('markArchive')
+      }
+    }
+  },
+  mounted() {
+    document.addEventListener('keydown', this.handleKayDown)
+  },
+  beforeUnmount() {
+    document.removeEventListener('keydown', this.handleKayDown)
+  }
 }
 </script>
 

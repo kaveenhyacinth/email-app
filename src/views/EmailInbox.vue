@@ -57,6 +57,14 @@ export default {
     onOpenEmail(id) {
       this.emailStore.openEmail(id)
       this.resetSelection()
+    },
+    handleKayDown(evt) {
+      if (evt.key === 'r') {
+        this.onMarkAsRead()
+      }
+      if (evt.key === 'a') {
+        this.onMarkAsArchive()
+      }
     }
   },
   watch: {
@@ -76,6 +84,12 @@ export default {
         this.selectedArray = []
       }
     }
+  },
+  mounted() {
+    document.addEventListener('keydown', this.handleKayDown)
+  },
+  beforeUnmount() {
+    document.removeEventListener('keydown', this.handleKayDown)
   }
 }
 </script>

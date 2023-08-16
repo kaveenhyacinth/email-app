@@ -15,7 +15,7 @@ export default {
 <template>
   <div class="email" :class="{ 'email--inactive': email.isRead }" @click.self="onOpenEmail">
     <input type="checkbox" class="email__select" :checked="isSelected" @change="onSelect" />
-    <p class="email__content">{{ email.subject }}</p>
+    <p class="email__content" @click.self="onOpenEmail">{{ email.subject }}</p>
   </div>
 </template>
 

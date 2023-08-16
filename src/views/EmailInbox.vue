@@ -1,9 +1,15 @@
 <script>
+import { mapStores } from 'pinia'
+import { useEmailStore } from '../stores/emailStore'
+
 import EmailElement from '../components/EmailElement.vue'
 
 export default {
   components: {
     EmailElement
+  },
+  computed: {
+    ...mapStores(useEmailStore)
   }
 }
 </script>
@@ -20,8 +26,8 @@ export default {
         <button class="content__heading__action-button">Mark as read (r)</button>
         <button class="content__heading__action-button">Archive (a)</button>
       </div>
-      <div class="content__emails">
-        <email-element />
+      <div class="content__emails" v-for="email of emailStore.emails" :key="email.id">
+        <email-element :email="email" />
       </div>
     </div>
   </main>
@@ -74,6 +80,6 @@ export default {
 }
 
 .content__emails {
-  padding-top: 2em;
+  padding-top: 1em;
 }
 </style>

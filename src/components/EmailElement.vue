@@ -1,11 +1,13 @@
 <script>
-export default {}
+export default {
+  props: ['email']
+}
 </script>
 
 <template>
-  <div class="email">
+  <div class="email" :class="{ 'email--inactive': email.isRead }">
     <input type="checkbox" class="email__select" />
-    <p class="email__content">Email content</p>
+    <p class="email__content">{{ email.subject }}</p>
   </div>
 </template>
 
@@ -22,6 +24,10 @@ export default {}
   border-radius: 0.25em;
 
   background-color: #f9fafb;
+}
+
+.email--inactive {
+  opacity: 0.5;
 }
 .email__select {
   height: 1.5em;

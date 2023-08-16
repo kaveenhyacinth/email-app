@@ -19,7 +19,7 @@ export default {}
 .sidebar {
   width: 18em;
   height: 100vh;
-  padding: 1em;
+  padding: 2em 1em 1em;
 
   display: flex;
   flex-direction: column;
@@ -46,5 +46,10 @@ export default {}
   text-align: left;
   text-decoration: none;
   cursor: pointer;
+}
+
+.content {
+  flex: 1;
+  padding: 1em 4em;
 }
 </style>

@@ -1,11 +1,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import EmailInboxVue from '../views/EmailInbox.vue'
+import EmailArchiveVue from '../views/EmailArchive.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
-      name: 'home'
+      alias: '/inbox',
+      name: 'inbox',
+      component: EmailInboxVue
+    },
+    {
+      path: '/archive',
+      name: 'archive',
+      component: EmailArchiveVue
     }
   ]
 })

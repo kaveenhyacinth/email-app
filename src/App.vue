@@ -1,8 +1,12 @@
 <script>
 import { mapStores } from 'pinia'
 import { useEmailStore } from './stores/emailStore'
+import EmailContent from './components/EmailContent.vue'
 
 export default {
+  components: {
+    EmailContent
+  },
   computed: {
     ...mapStores(useEmailStore)
   },
@@ -12,6 +16,19 @@ export default {
     },
     gotoArchives() {
       this.$router.push('/archive')
+    },
+    onCloseEmail() {
+      this.emailStore.closeEmail()
+    },
+    onMarkAsRead() {
+      if (this.emailStore.selectedEmail) {
+        this.emailStore.markAsRead([this.emailStore.selectedEmail])
+      }
+    },
+    onMarkAsArchive() {
+      if (this.emailStore.selectedEmail) {
+        this.emailStore.addToArchive([this.emailStore.selectedEmail])
+      }
     }
   }
 }
@@ -31,6 +48,13 @@ export default {
   </aside>
   <main class="content">
     <router-view />
+    <email-content
+      v-if="emailStore.isEmailOpen"
+      :email="emailStore.getSelectedEmail"
+      @mark-read="onMarkAsRead"
+      @mark-archive="onMarkAsArchive"
+      @close="onCloseEmail"
+    />
   </main>
 </template>
 

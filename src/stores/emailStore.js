@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 
 export const useEmailStore = defineStore('email', {
   state: () => ({
+    isEmailOpen: false,
+    selectedEmail: null,
     emails: [
       {
         id: 1,
@@ -34,9 +36,19 @@ export const useEmailStore = defineStore('email', {
     getInbox: (state) => state.emails?.filter((email) => !email.isArchive),
     getArchives: (state) => state.emails?.filter((email) => email.isArchive),
     getInboxCount: (state) => state.emails?.filter((email) => !email.isArchive)?.length,
-    getArchiveCount: (state) => state.emails?.filter((email) => email.isArchive)?.length
+    getArchiveCount: (state) => state.emails?.filter((email) => email.isArchive)?.length,
+    getSelectedEmail: (state) =>
+      state.emails?.find((email) => email.id === state.selectedEmail) ?? {}
   },
   actions: {
+    openEmail(id) {
+      this.isEmailOpen = true
+      this.selectedEmail = id
+    },
+    closeEmail() {
+      this.isEmailOpen = false
+      this.selectedEmail = null
+    },
     markAsRead(ids) {
       this.emails?.forEach((email) => {
         if (ids?.includes(email.id)) {

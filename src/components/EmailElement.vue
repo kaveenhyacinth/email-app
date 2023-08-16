@@ -4,13 +4,16 @@ export default {
   methods: {
     onSelect() {
       this.$emit('selectEmail', this.email.id)
+    },
+    onOpenEmail() {
+      this.$emit('openEmail', this.email.id)
     }
   }
 }
 </script>
 
 <template>
-  <div class="email" :class="{ 'email--inactive': email.isRead }">
+  <div class="email" :class="{ 'email--inactive': email.isRead }" @click.self="onOpenEmail">
     <input type="checkbox" class="email__select" :checked="isSelected" @change="onSelect" />
     <p class="email__content">{{ email.subject }}</p>
   </div>
@@ -29,6 +32,8 @@ export default {
   border-radius: 0.25em;
 
   background-color: #f9fafb;
+
+  cursor: pointer;
 }
 
 .email--inactive {

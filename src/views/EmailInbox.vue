@@ -29,8 +29,16 @@ export default {
     }
   },
   methods: {
+    resetSelection() {
+      this.isSelectedAll = false
+      this.selectedArray = []
+    },
     onSelectEmail(id) {
-      this.selectedArray.push(id)
+      if (this.selectedArray?.includes(id)) {
+        this.selectedArray = this.selectedArray?.filter((emailId) => emailId !== id)
+      } else {
+        this.selectedArray.push(id)
+      }
     },
     isEmailSelected(id) {
       return this.selectedArray?.includes(id)
@@ -40,19 +48,29 @@ export default {
     },
     onMarkAsRead() {
       this.emailStore.markAsRead(this.selectedArray)
+      this.resetSelection()
     },
     onMarkAsArchive() {
       this.emailStore.addToArchive(this.selectedArray)
+      this.resetSelection()
+    },
+    onOpenEmail(id) {
+      this.emailStore.openEmail(id)
+      this.resetSelection()
     }
   },
   watch: {
     $route() {
       this.isInbox = this.$route.name === 'inbox'
+      this.selectedArray = []
+      this.isSelectedAll = false
     },
     isSelectedAll() {
       if (this.isSelectedAll) {
-        this.emailStore.emails?.forEach((email) => {
-          this.selectedArray.push(email.id)
+        this.emails?.forEach((email) => {
+          if (!this.selectedArray?.includes(email.id)) {
+            this.selectedArray.push(email.id)
+          }
         })
       } else {
         this.selectedArray = []
@@ -64,7 +82,7 @@ export default {
 
 <template>
   <header class="header">
-    <h3 class="header__title">Inbox</h3>
+    <h3 class="header__title">{{ isInbox ? 'Inbox' : 'Archive' }}</h3>
   </header>
   <main class="container">
     <h1 class="container__title">Emails Selected ({{ selectedEmailCount }})</h1>
@@ -88,6 +106,7 @@ export default {
           :email="email"
           :is-selected="isEmailSelected(email.id)"
           @select-email="onSelectEmail"
+          @open-email="onOpenEmail"
         />
       </div>
     </div>

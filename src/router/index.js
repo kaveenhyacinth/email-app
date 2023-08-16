@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import EmailInboxVue from '../views/EmailInbox.vue'
-import EmailArchiveVue from '../views/EmailArchive.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,7 +13,7 @@ const router = createRouter({
     {
       path: '/archive',
       name: 'archive',
-      component: EmailArchiveVue
+      component: EmailInboxVue
     }
   ]
 })

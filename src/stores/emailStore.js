@@ -31,12 +31,13 @@ export const useEmailStore = defineStore('email', {
   }),
   getters: {
     getEmailById: (state) => (id) => state.emails?.find((email) => email.id === id),
+    getInbox: (state) => state.emails?.filter((email) => !email.isArchive),
+    getArchives: (state) => state.emails?.filter((email) => email.isArchive),
     getInboxCount: (state) => state.emails?.filter((email) => !email.isArchive)?.length,
     getArchiveCount: (state) => state.emails?.filter((email) => email.isArchive)?.length
   },
   actions: {
     markAsRead(ids) {
-      console.log('email id', ids)
       this.emails?.forEach((email) => {
         if (ids?.includes(email.id)) {
           email.isRead = true

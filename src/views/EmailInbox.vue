@@ -8,7 +8,8 @@ export default {
   data() {
     return {
       selectedArray: [],
-      isSelectedAll: false
+      isSelectedAll: false,
+      isInbox: true
     }
   },
   components: {
@@ -16,8 +17,12 @@ export default {
   },
   computed: {
     ...mapStores(useEmailStore),
-    inboxEmails() {
-      return this.emailStore.emails?.filter((email) => !email.isArchive)
+    emails() {
+      if (this.isInbox) {
+        return this.emailStore.getInbox
+      } else {
+        return this.emailStore.getArchives
+      }
     },
     selectedEmailCount() {
       return this.selectedArray.length
@@ -41,6 +46,9 @@ export default {
     }
   },
   watch: {
+    $route() {
+      this.isInbox = this.$route.name === 'inbox'
+    },
     isSelectedAll() {
       if (this.isSelectedAll) {
         this.emailStore.emails?.forEach((email) => {
@@ -75,7 +83,7 @@ export default {
           Archive (a)
         </button>
       </div>
-      <div class="content__emails" v-for="email of inboxEmails" :key="email.id">
+      <div class="content__emails" v-for="email of emails" :key="email.id">
         <email-element
           :email="email"
           :is-selected="isEmailSelected(email.id)"

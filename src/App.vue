@@ -5,6 +5,14 @@ import { useEmailStore } from './stores/emailStore'
 export default {
   computed: {
     ...mapStores(useEmailStore)
+  },
+  methods: {
+    gotoInbox() {
+      this.$router.push('/inbox')
+    },
+    gotoArchives() {
+      this.$router.push('/archive')
+    }
   }
 }
 </script>
@@ -12,8 +20,12 @@ export default {
 <template>
   <aside class="sidebar">
     <div class="sidebar__menu">
-      <button class="sidebar__menu-button">Inbox ({{ emailStore.getInboxCount }})</button>
-      <button class="sidebar__menu-button">Archive ({{ emailStore.getArchiveCount }})</button>
+      <button class="sidebar__menu-button" @click="gotoInbox">
+        Inbox ({{ emailStore.getInboxCount }})
+      </button>
+      <button class="sidebar__menu-button" @click="gotoArchives">
+        Archive ({{ emailStore.getArchiveCount }})
+      </button>
     </div>
     <button class="sidebar__menu-button">Logout</button>
   </aside>
